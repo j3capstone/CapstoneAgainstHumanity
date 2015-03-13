@@ -1,0 +1,12 @@
+{
+    "name": "capstone-against-humanity",
+    "version": "0.0.1",
+    "description": "Cards Against Humanity for Capstone project",
+    "dependencies": {
+        "express": "^4.11.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jamesthomasonjr/CapstoneAgainstHumanity"
+    }
+}
