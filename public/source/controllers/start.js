@@ -1,5 +1,5 @@
 var app = angular.module('capstone');
 
-app.controller('HomeController', function() {
+app.controller('StartController', function() {
     'use strict';
 });
