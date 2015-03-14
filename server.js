@@ -1,9 +1,9 @@
 var express = require('express');
-var app = express()
+var app = express();
 
-app.get('/', function (request, response) {
-    response.send("Capstone Against Humanity");
-});
+var serveStatic = require('serve-static');
+
+app.use(serveStatic('public'));
 
 var server = app.listen(8000, function () {
     var port = server.address().port;
