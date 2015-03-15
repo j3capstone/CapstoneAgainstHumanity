@@ -5,8 +5,12 @@ app.config(function ($routeProvider) {
 
     $routeProvider
         .when('/', {
-            templateUrl: 'source/views/home.html',
-            controller: 'HomeController'
+            templateUrl: 'source/views/start.html',
+            controller: 'StartController'
+        })
+        .when ('/:id', {
+            templateUrl: 'source/views/game.html',
+            controller: 'GameController'
         })
         .otherwise('/');
 });

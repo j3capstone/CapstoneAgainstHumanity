@@ -1,0 +1,23 @@
+<h1>Capstone Against Humanity</h1>
+<section id="newGame">
+    <h2>New Game</h2>
+    <p>Enter your name below to start a new game.</p>
+    <form name="createGame" data-ng-submit="createGame.$valid && create()">
+        <div class="message-error" data-ng-if="errorMessage">{{errorMessage}}</div>
+        <div class="form-group">
+            <label class="form-label" for="creatorName">Your Name</label>
+            <input placeholder="Your Name Here" class="form-input" type="text" id="creatorName" name="creatorName" data-ng-model="player.playerName" required />
+            <button class="button" type="submit">Create</button>
+        </div>
+    </form>
+</section>
+<hr />
+<section ng-if="games" id="currentGames">
+    <h2>Current Games</h2>
+    <p>These are the current games beginning, click to join one.</p>
+    <ul class="list">
+        <li ng-repeat="(id,game) in games">
+            <a ng-href="#/{{id}}"><i class="fa fa-sign-in"></i> {{id}} created by {{game.creator}} on {{game.createdOn | date}}</a>
+        </li>
+    </ul>
+</section>
