@@ -19,12 +19,11 @@ module.exports = function (app, server) {
             }
         },
         Game: function (creator) {
-            /* note: Array.slice() is a quick way of cloning an array */
             return {
                 creator: creator,
                 createdOn: Date.now(),
-                questionDeck: arrayTools.Shuffle(questionCards.slice()),
-                answerDeck: arrayTools.Shuffle(answerCards.slice()),
+                questionDeck: arrayTools.Shuffle(arrayTools.Clone(questionCards)),
+                answerDeck: arrayTools.Shuffle(arrayTools.Clone(answerCards)),
                 questionDiscardPile: {},
                 answerDiscardPile: {},
                 currentRound: null
