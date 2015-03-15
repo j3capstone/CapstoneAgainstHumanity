@@ -3,7 +3,7 @@ module.exports = {
         return Object.keys(object).map(function(key) { return object[key] });
     },
     Clone: function (array) {
-        return array.splice();
+        return array.splice(0);
     },
     Shuffle: function (array) {
         var counter = array.length;
