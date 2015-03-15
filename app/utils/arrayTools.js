@@ -1,6 +1,9 @@
 module.exports = {
-    ObjectToArray:  function (object) {
+    ObjectToArray: function (object) {
         return Object.keys(object).map(function(key) { return object[key] });
+    },
+    Clone: function (array) {
+        return array.splice();
     },
     Shuffle: function (array) {
         var counter = array.length;
