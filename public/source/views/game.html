@@ -1,2 +1,38 @@
 <h1>Capstone Against Humanity</h1>
-<p> Game id: {{game.id}} </p>
+<div>
+    <section id="player">
+        <h2 data ng-if="player">You</h2>
+        <p>You are {{player.playerName}}</p>
+    </section>
+
+    <section id="cards">
+        <h2 data ng-if="player.cards">Hand</h2>
+        <ul class="list">
+            <li data-ng-repeat="(id, card) in player.cards" class="card-details">
+                <span class="card-text">{{card.text}}</span>
+            </li>
+        </ul>
+    </section>
+
+    <section id="players">
+        <h2 data ng-if="game.players"><i class="fa fa-users"></i> Who's playing?</h2>
+        <ul class="list">
+            <li data-ng-repeat="(name, thisPlayer) in game.players" class="player-details">
+                <span class="player-job">
+                </span>
+                <span class="player-activity">
+                    <span class="player-name">{{thisPlayer.playerName}}</span>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <form data-ng-if="!nameSet" name="joinGame" data-ng-submit="joinGame.$valid && join()">
+        <h1>Join This Game</h1>
+        <div class="form-group">
+            <label class="form-label" for="playerName">Your Name</label>
+            <input type="text" placeholder="Your Name Here" class="form-input" id="playerName" name="playerName" data-ng-model="player.playerName" required />
+            <button type="submit" class="button">Join</button>
+        </div>
+    </form>
+</div>

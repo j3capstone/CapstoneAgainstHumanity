@@ -5,13 +5,13 @@ app.controller('StartController', function($log, $scope, $rootScope, $cookieStor
 
     var socket = io();
 
-    $scope.user = {};
+    $scope.player = {};
 
     $scope.create = function(){
-        $rootScope.user = $scope.user;
-        $cookieStore.put('user', $scope.user);
+        $rootScope.player = $scope.player;
+        $cookieStore.put('player', $scope.player);
 
-        socket.emit('createGame', $scope.user.username);
+        socket.emit('createGame', $scope.player.playerName);
         $log.log("createGame");
     };
 

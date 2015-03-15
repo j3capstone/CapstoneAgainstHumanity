@@ -15,20 +15,26 @@ app.controller('GameController', function($routeParams, $scope, $location, $cook
 
     $scope.join = function () {
         $scope.nameSet = true;
-        $cookieStore.put('user', $scope.user);
+        $cookieStore.put('player', $scope.player);
 
-        socket.emit('join', $scope.user.username, $routeParams.id);
+        socket.emit('join', $scope.player.playerName, $routeParams.id);
     };
 
     $scope.play = function (id) {
         $scope.played = true;
-        socket.emit('play', $scope.user.username, id);
+        socket.emit('play', $scope.player.playerName, id);
     };
 
     $scope.choose = function (id) {
         $scope.chose = true;
-        socket.emit('choose', $scope.user.username, id);
+        socket.emit('choose', $scope.player.playerName, id);
     };
+
+    socket.on('updatePlayers', function (players) {
+        $scope.game.players = players;
+        $scope.player = $scope.game.players[$scope.player.playerName]
+        $scope.$apply();
+    });
 
     socket.on('cardPlayed', function(){});
 
@@ -39,9 +45,9 @@ app.controller('GameController', function($routeParams, $scope, $location, $cook
     socket.on('gameEnded', function(){});
 
 
-    $scope.user = $scope.user || $cookieStore.get('user') || {};
+    $scope.player = $scope.player || $cookieStore.get('player') || {};
 
-    if ($scope.user.username) {
+    if ($scope.player.playerName) {
         $scope.join();
     }
 
