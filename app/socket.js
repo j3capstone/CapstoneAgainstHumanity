@@ -3,10 +3,10 @@ module.exports = function (app, server) {
 
     var arrayTools = require('./utils/arrayTools.js');
 
-    var answerCards = arrayTools.ObjectToArray(require('cah-cards/answers'));
-    var questionCards = arrayTools.ObjectToArray(require('cah-cards/questions'));
+    var answerCards = require('cah-cards/answers');
+    var questionCards = require('cah-cards/questions');
 
-    var hashIDs = new require('hashids')('capstonesalt');
+    var hashIDs = new require('hashids')('this is my super unoriginal salt for the capstone project');
     var idCount = 0;
 
     var games;
@@ -15,19 +15,42 @@ module.exports = function (app, server) {
         Player: function (name, game) {
             return {
                 playerName: name,
-                cards: game.answerDeck.splice(0, 10)
+                cards: game.answerDeck.splice(0, 10),
+                score: 0
             }
         },
         Game: function (creator) {
-            return {
-                creator: creator,
+            var newGame = {
+                questionDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(questionCards)),
+                answerDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(answerCards)),
+                cardCzar: creator,
                 createdOn: Date.now(),
-                questionDeck: arrayTools.Shuffle(arrayTools.Clone(questionCards)),
-                answerDeck: arrayTools.Shuffle(arrayTools.Clone(answerCards)),
-                questionDiscardPile: {},
-                answerDiscardPile: {},
-                currentRound: null
-            }
+                inPlay: {},
+                players: null,
+                currentRound: null,
+                questionCard: null,
+                questionDiscardPile: [],
+                answerDiscardPile: [],
+                drawNewQuestionCard: function() {
+                    this.questionDiscardPile.push(this.questionCard);
+                    this.questionCard = this.questionDeck.shift();
+                },
+                chooseNewCardCzar: function() {
+                    var playerIds = Object.keys(this.players);
+                    var index = playerIds.indexOf(this.cardCzar);
+
+                    if (index == -1) {
+                        this.cardCzar = playerIds[0];
+                    } else if (playerIds[index+1]) {
+                        this.cardCzar = playerIds[index+1];
+                    } else {
+                        this.cardCzar = playerIds[0];
+                    }
+                }
+            };
+
+            newGame.questionCard = newGame.questionDeck.shift();
+            return newGame;
         }
     };
 
@@ -35,7 +58,30 @@ module.exports = function (app, server) {
         io.to(socket.game).emit('updatePlayers', games[socket.game].players);
     };
 
+    var endRound = function (game) {
+        game.chooseNewCardCzar();
+        game.drawNewQuestionCard();
+        game.inPlay = {};
+    };
+
+    var sendCardsNotice = function (socket) {
+        //@TODO Check if all cards are played, and if so, send allCardsPlayed instead
+        socket.emit('updateHand', games[socket.game].players[socket.playerName].cards);
+        io.to(socket.game).emit('updateCards', games[socket.game].inPlay);
+    };
+
+    var sendRoundOverNotice = function (socket, winner, answer) {
+        io.to(socket.game).emit('roundOver', winner.playerName, answer);
+        io.to(socket.game).emit('gameDetails', games[socket.game])
+    };
+
+    var sendNewQuestionCardNotice = function (socket) {
+        games[socket.game].drawNewQuestionCard();
+        io.to(socket.game).emit('questionCard', games[socket.game].questionCard);
+    };
+
     var io = require('socket.io')(server);
+
     io.on('connection', function (socket) {
         io.emit('gameList', games);
 
@@ -49,7 +95,7 @@ module.exports = function (app, server) {
             game.players = game.players ||  {};
             game.players[playerName] = game.players[playerName] || new models.Player(playerName, game);
 
-            socket.emit('gameDetails', game, gameId)
+            socket.emit('gameDetails', game);
 
             sendPlayersNotice(socket);
         });
@@ -62,6 +108,33 @@ module.exports = function (app, server) {
 
             io.emit('gameList', games);
             socket.emit('gameCreated', gameId);
+        });
+
+        socket.on('playCard', function (playerName, cardId) {
+            var card = games[socket.game].players[playerName].cards.splice(cardId,1);
+            games[socket.game].inPlay[playerName] = card;
+
+            games[socket.game].players[playerName].cards.push(games[socket.game].answerDeck.shift());
+            // socket.emit('cardPlayed', playerName, answerCards[cardId]);
+            sendCardsNotice(socket);
+        });
+
+        socket.on('chooseCard', function (playerChoosing, playerChosen) {
+            if(playerChoosing != games[socket.game].cardCzar) {
+                socket.emit('error', 'You\'re not the Card Czar!');
+            } else {
+                var winner = games[socket.game].players[playerChosen];
+                winner.score++;
+
+                var answer = games[socket.game].inPlay[playerChosen];
+
+                if (winner.score < 10) {
+                    endRound(games[socket.game]);
+                    sendRoundOverNotice(socket, winner, answer);
+                } else {
+                    sendGameOverNotice(socket, winner, answer);
+                }
+            }
         });
     });
 }
