@@ -8,14 +8,16 @@
 
     <section id="question" ng-if="game.questionCard">
         <h2>Question</h2>
-        <p>{{game.questionCard.text}}</p>
+        <div class="card-details question-card">
+            <span class="card-text">{{game.questionCard.text}}</span>
+        </div>
     </section>
 
     <section ng-if="game.cardCzar != player.playerName && player.cards" id="hand">
         <h2>Hand</h2>
         <ul class="list">
-            <li data-ng-repeat="(index, card) in player.cards" class="card-details">
-                <span class="card-text"><a ng-click="play(index)">{{card.text}}</a></span>
+            <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details">
+                <span class="card-text">{{card.text}}</span>
             </li>
         </ul>
     </section>
@@ -23,11 +25,9 @@
     <section id="in-play" ng-if="game.inPlay">
         <h2 data>In Play</h2>
         <ul class="list">
-            <li data-ng-repeat="(player, cards) in game.inPlay" class="card-details">
+            <li data-ng-repeat="(player, cards) in game.inPlay" ng-click="choose(player)" class="card-details answer-card">
                 <span class="card-text">
-                    <a ng-click="choose(player)">
-                        <span data-ng-repeat="(index, card) in cards">{{card.text}}</span>
-                    </a>
+                    <span data-ng-repeat="(index, card) in cards">{{card.text}}</span>
                 </span>
             </li>
         </ul>
