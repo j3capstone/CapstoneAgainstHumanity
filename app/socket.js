@@ -23,6 +23,7 @@ module.exports = function (app, server) {
             var newGame = {
                 questionDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(questionCards)),
                 answerDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(answerCards)),
+                creator: creator,
                 cardCzar: creator,
                 createdOn: Date.now(),
                 inPlay: {},
