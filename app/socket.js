@@ -21,8 +21,8 @@ module.exports = function (app, server) {
         },
         Game: function (creator) {
             var newGame = {
-                questionDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(questionCards)),
-                answerDeck: arrayTools.Shuffle(arrayTools.ObjectToArray(answerCards)),
+                questionDeck: arrayTools.Shuffle(arrayTools.Filter(arrayTools.ObjectToArray(questionCards))),
+                answerDeck: arrayTools.Shuffle(arrayTools.Filter(arrayTools.ObjectToArray(answerCards))),
                 creator: creator,
                 cardCzar: creator,
                 createdOn: Date.now(),
