@@ -1,16 +1,19 @@
 <!doctype html>
 <html data-ng-app="capstone">
-    <head></head>
+    <head>
+        <title>Capstone Against Humanity</title>
+        <link href="vendor/normalize.css/normalize.css" rel="stylesheet">
+        <link href="source/styles/game.css" rel="stylesheet">
+    </head>
     <body>
         <div class="content" data-ng-view></div>
         <footer></footer>
-        <!-- I should have used yeoman, but a little extra work never hurt anybody -->
-        <!-- bower components -->
+        <!-- bower scripts -->
         <script src="vendor/angular/angular.js"></script>
         <script src="vendor/angular-route/angular-route.js"></script>
         <script src="vendor/angular-cookies/angular-cookies.js"></script>
         <script src="vendor/socket.io-client/socket.io.js"></script>
-        <!-- angular code -->
+        <!-- angular scripts -->
         <script src="source/router.js"></script>
         <script src="source/controllers/start.js"></script>
         <script src="source/controllers/game.js"></script>

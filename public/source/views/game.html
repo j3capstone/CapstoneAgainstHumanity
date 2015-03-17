@@ -1,27 +1,47 @@
 <h1>Capstone Against Humanity</h1>
 <div>
-    <section id="player">
-        <h2 data ng-if="player">You</h2>
+    <section id="player" ng-if="player">
+        <h2>You</h2>
         <p>You are {{player.playerName}}</p>
+        <p ng-if="game.cardCzar == player.playerName">You are the Card Czar</p>
     </section>
 
-    <section id="cards">
-        <h2 data ng-if="player.cards">Hand</h2>
+    <section id="question" ng-if="game.questionCard">
+        <h2>Question</h2>
+        <div class="card-details question-card">
+            <span class="card-text">{{game.questionCard.text}}</span>
+        </div>
+    </section>
+
+    <section ng-if="game.cardCzar != player.playerName && player.cards" id="hand">
+        <h2>Hand</h2>
         <ul class="list">
-            <li data-ng-repeat="(id, card) in player.cards" class="card-details">
+            <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details">
                 <span class="card-text">{{card.text}}</span>
             </li>
         </ul>
     </section>
 
-    <section id="players">
-        <h2 data ng-if="game.players"><i class="fa fa-users"></i> Who's playing?</h2>
+    <section id="in-play" ng-if="game.inPlay">
+        <h2 data>In Play</h2>
         <ul class="list">
-            <li data-ng-repeat="(name, thisPlayer) in game.players" class="player-details">
+            <li data-ng-repeat="(player, cards) in game.inPlay" ng-click="choose(player)" class="card-details answer-card">
+                <span class="card-text">
+                    <span data-ng-repeat="(index, card) in cards">{{card.text}}</span>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <section id="players" ng-if="game.players">
+        <h2><i class="fa fa-users"></i> Who's playing?</h2>
+        <ul class="list">
+            <li data-ng-repeat="(index, thisPlayer) in game.players" class="player-details">
                 <span class="player-job">
                 </span>
                 <span class="player-activity">
                     <span class="player-name">{{thisPlayer.playerName}}</span>
+                    <span class="player-score">{{thisPlayer.score}}</span>
                 </span>
             </li>
         </ul>
