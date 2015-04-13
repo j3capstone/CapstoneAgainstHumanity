@@ -16,7 +16,7 @@
     <section ng-if="game.cardCzar != player.playerName && player.cards" id="hand">
         <h2>Hand</h2>
         <ul class="list">
-            <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details">
+            <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details answer-card">
                 <span class="card-text">{{card.text}}</span>
             </li>
         </ul>
