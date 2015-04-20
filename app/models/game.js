@@ -1,4 +1,6 @@
 module.exports = function(arrayTools, questionCards, answerCards){
+    //My attempt at some semblance of a class and/or "MVC" design in Javascript.
+    //I underestimated how different Javascript's "everything is basically an associative array" syntax would be to work with
     return function (creator) {
         /* Construct */
         var newGame = {

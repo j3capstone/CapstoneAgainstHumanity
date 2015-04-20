@@ -1,10 +1,15 @@
 module.exports = {
+    //A bunch of functions that I wrote to handle array weirdness.
+    //Felt like they would serve better inside their own utility object, so here they are!
     ObjectToArray: function (object) {
         return Object.keys(object).map(function(key) { return object[key] });
     },
+    //I had the need to clone an array as to not modify the original
+    //Mainly to clone the master list of cards before shuffling and drawing cards for individual games
     Clone: function (array) {
         return array.splice(0);
     },
+    //Some fancy shuffle that I rewrote from Stack Overflow
     Shuffle: function (array) {
         var counter = array.length;
         var index;
@@ -22,6 +27,7 @@ module.exports = {
 
         return array;
     },
+    //...This game has some inappropriate cards. This filters them out.
     Filter: function (array) {
         /* Filter to a select few somewhat more class-appropriate cards */
         var allowed = [18, 26, 43, 47, 83, 95, 111, 143, 174, 190, 193,
