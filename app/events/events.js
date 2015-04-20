@@ -84,7 +84,7 @@ module.exports = function (io, hashIDs, models, games) {
             socket.emit('gameCreated', gameId);
         });
 
-        /* Whenever a player plays a card...
+        /* Whenever a player plays a card... */
         socket.on('playCard', function (playerName, cardId) {
             /* Grab the card object given the player's name and card ID */
             var card = games[socket.game].players[playerName].cards.splice(cardId,1);
