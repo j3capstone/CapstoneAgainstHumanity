@@ -1,5 +1,6 @@
 module.exports = function (io, hashIDs, models, games) {
 
+    var count = 0;
     var sendPlayersNotice = function (socket) {
         /* Send the 'updatePlayers' message, and send the current list of players */
         io.to(socket.game).emit('updatePlayers', games[socket.game].players);
@@ -72,8 +73,7 @@ module.exports = function (io, hashIDs, models, games) {
             /* Grab the game list or create a new one */
             games = games || {};
             /* Create a unique ID for the game URL */
-            var count = games.length || 0;
-            var gameId = hashIDs.encode(count);
+            var gameId = hashIDs.encode(count++);
 
             /* Add a new game to the games list */
             games[gameId] = models.Game(creator);
