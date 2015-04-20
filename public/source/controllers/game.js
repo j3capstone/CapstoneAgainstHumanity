@@ -68,12 +68,10 @@ app.controller('GameController', function($log, $routeParams, $scope, $location,
         $log.log(winner + ' won the round with "' + answers.join(",") + '".');
     });
 
-    socket.on('cardChosen', function(){});
-
-    socket.on('gameStarted', function(){});
-
-    socket.on('gameEnded', function(){});
-
+    socket.on('gameOver', function (winner, answers) {
+        $log.log('gameOver');
+        $scope.winner = winner;
+    });
 
     $scope.player = $scope.player || $cookieStore.get('player') || {};
 

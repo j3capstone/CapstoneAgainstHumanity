@@ -1,10 +1,15 @@
 module.exports = {
+    //A bunch of functions that I wrote to handle array weirdness.
+    //Felt like they would serve better inside their own utility object, so here they are!
     ObjectToArray: function (object) {
         return Object.keys(object).map(function(key) { return object[key] });
     },
+    //I had the need to clone an array as to not modify the original
+    //Mainly to clone the master list of cards before shuffling and drawing cards for individual games
     Clone: function (array) {
         return array.splice(0);
     },
+    //Some fancy shuffle that I rewrote from Stack Overflow
     Shuffle: function (array) {
         var counter = array.length;
         var index;
@@ -22,14 +27,23 @@ module.exports = {
 
         return array;
     },
+    //...This game has some inappropriate cards. This filters some of the worst ones out.
+    //...Since there are so many cards and so many are inappropriate, we opted to filter by acceptable choices instead of unacceptable.
     Filter: function (array) {
         /* Filter to a select few somewhat more class-appropriate cards */
         var allowed = [18, 26, 43, 47, 83, 95, 111, 143, 174, 190, 193,
             201, 239, 273, 292, 305, 363, 365, 379, 398, 413, 437, 459,
-            474, 487, 495, 506, 600, 609, 625, 636, 651, 676, 688, 704,
-            716, 721, 749, 767, 768, 800, 810, 819, 851, 862, 872, 893,
-            1009, 1032, 1059, 1095, 1108, 1133, 1142, 1162, 1176, 1186,
-            1190, 1202, 1209, 1215, 1233, 1246, 1248, 1252, 1312];
+            460, 462, 463, 464, 465, 468, 470, 472, 474, 476, 478, 481,
+            484, 485, 487, 493, 494, 495, 497, 502, 504, 506, 507, 513,
+            516, 517, 554, 557, 558, 572, 600, 609, 625, 630, 633, 636,
+            641, 643, 651, 654, 660, 668, 676, 680, 681, 677, 678, 688,
+            693, 695, 704, 706, 716, 721, 722, 723, 749, 767, 768, 774,
+            779, 785, 792, 800, 810, 819, 829, 831, 839, 851, 862, 872,
+            893, 904, 906, 926, 944, 966, 967, 971, 977, 983, 984, 995,
+            998, 1003, 1009, 1012, 1015, 1018, 1032, 1044, 1045, 1046,
+            1055, 1059, 1067, 1068, 1069, 1081, 1095, 1108, 1112, 1133,
+            1141, 1142, 1149, 1152, 1157, 1159, 1162, 1166, 1167, 1176,
+            1186, 1190, 1202, 1209, 1215, 1233, 1246, 1248, 1252, 1312];
 
         return array.filter(function(element) {
             return allowed.indexOf(element.id) != -1;
