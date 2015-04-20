@@ -21,6 +21,11 @@ module.exports = function (io, hashIDs, models, games) {
         io.to(socket.game).emit('gameDetails', games[socket.game])
     };
 
+    var sendGameOverNotice = function (socket, winner, answer) {
+        io.to(socket.game).emit('gameOver', winner.playerName, answer);
+        io.to(socket.game).emit('gameDetails', games[socket.game]);
+    };
+
     var sendNewQuestionCardNotice = function (socket) {
         games[socket.game].drawNewQuestionCard();
         io.to(socket.game).emit('questionCard', games[socket.game].questionCard);

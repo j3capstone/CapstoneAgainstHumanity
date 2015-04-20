@@ -1,52 +1,75 @@
 <h1>Capstone Against Humanity</h1>
 <div>
-    <section id="player" ng-if="player">
-        <h2>You</h2>
-        <p>You are {{player.playerName}}</p>
-        <p ng-if="game.cardCzar == player.playerName">You are the Card Czar</p>
-    </section>
+    <!--Only show this div if there is currently a player assigned with this session, and someone has won the game-->
+    <div id="gameover" ng-if="player && winner">
+        <h2>Game over!</h2>
+        <!--If there is a player and said player is the winner, tell them they won-->
+        <span ng-if="player.playerName && winner == player.playerName">You won!</span>
+        <!--Otherwise, let them know who the winner was-->
+        <span ng-if="!player.playerName || winner != player.playerName">{{winner}} won!</span>
+    </div>
 
-    <section id="question" ng-if="game.questionCard">
-        <h2>Question</h2>
-        <div class="card-details question-card">
-            <span class="card-text">{{game.questionCard.text}}</span>
-        </div>
-    </section>
+    <!--Only show this div if the game hasn't been won yet-->
+    <div id="game" ng-if="!winner">
+        <!--Only show this section if there is currently a player assigned with this session-->
+        <section id="player" ng-if="player">
+            <h2>You</h2>
+            <p>You are {{player.playerName}}</p>
+            <!--If the player is the current card czar, let them know-->
+            <p ng-if="player.playerName && game.cardCzar == player.playerName">You are the Card Czar</p>
+        </section>
 
-    <section ng-if="game.cardCzar != player.playerName && player.cards" id="hand">
-        <h2>Hand</h2>
-        <ul class="list">
-            <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details answer-card">
-                <span class="card-text">{{card.text}}</span>
-            </li>
-        </ul>
-    </section>
+        <!---->
+        <section id="question" ng-if="game.questionCard">
+            <h2>Question</h2>
+            <div class="card-details question-card">
+                <!---->
+                <span class="card-text">{{game.questionCard.text}}</span>
+            </div>
+        </section>
 
-    <section id="in-play" ng-if="game.inPlay">
-        <h2 data>In Play</h2>
-        <ul class="list">
-            <li data-ng-repeat="(player, cards) in game.inPlay" ng-click="choose(player)" class="card-details answer-card">
-                <span class="card-text">
-                    <span data-ng-repeat="(index, card) in cards">{{card.text}}</span>
-                </span>
-            </li>
-        </ul>
-    </section>
+        <!---->
+        <section ng-if="game.cardCzar != player.playerName && player.cards" id="hand">
+            <h2>Hand</h2>
+            <ul class="list">
+                <!---->
+                <li data-ng-repeat="(index, card) in player.cards" ng-click="play(index)" class="card-details answer-card">
+                    <span class="card-text">{{card.text}}</span>
+                </li>
+            </ul>
+        </section>
 
-    <section id="players" ng-if="game.players">
-        <h2><i class="fa fa-users"></i> Who's playing?</h2>
-        <ul class="list">
-            <li data-ng-repeat="(index, thisPlayer) in game.players" class="player-details">
-                <span class="player-job">
-                </span>
-                <span class="player-activity">
-                    <span class="player-name">{{thisPlayer.playerName}}</span>
-                    <span class="player-score">{{thisPlayer.score}}</span>
-                </span>
-            </li>
-        </ul>
-    </section>
+        <!---->
+        <section id="in-play" ng-if="game.inPlay">
+            <h2 data>In Play</h2>
+            <ul class="list">
+                <!---->
+                <li data-ng-repeat="(player, cards) in game.inPlay" ng-click="choose(player)" class="card-details answer-card">
+                    <span class="card-text">
+                        <span data-ng-repeat="(index, card) in cards">{{card.text}}</span>
+                    </span>
+                </li>
+            </ul>
+        </section>
 
+        <!---->
+        <section id="players" ng-if="game.players">
+            <h2><i class="fa fa-users"></i> Who's playing?</h2>
+            <ul class="list">
+                <!---->
+                <li data-ng-repeat="(index, thisPlayer) in game.players" class="player-details">
+                    <span class="player-job">
+                    </span>
+                    <span class="player-activity">
+                        <span class="player-name">{{thisPlayer.playerName}}</span>
+                        <span class="player-score">{{thisPlayer.score}}</span>
+                    </span>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <!---->
     <form data-ng-if="!nameSet" name="joinGame" data-ng-submit="joinGame.$valid && join()">
         <h1>Join This Game</h1>
         <div class="form-group">
