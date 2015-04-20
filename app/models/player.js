@@ -1,5 +1,5 @@
 module.exports = function(io){
-    //Another attempt at a model!
+    /* Another attempt at a model! */
     return function (name, game) {
         /* Construct */
         var player = {
