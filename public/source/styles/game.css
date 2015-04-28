@@ -2,6 +2,8 @@ body {
     max-width: 800px;
     margin: auto;
     text-align: center;
+    background-color: #E1DED5;
+    background-image: url(../img/seamless_paper_texture.png);
 }
 
 section {
@@ -21,23 +23,69 @@ ul.list {
     vertical-align: top;
     font-size: 1.2em;
     border-radius: 4px;
-    border: 1px solid black;
+    border: 1px solid #000;
     box-shadow: 0 3px 4px -2px rgba(0,0,0,0.5);
 }
 
 .card-details.answer-card {
     color: black;
-    background-color: white;
+    background-color: #fff;
     margin: .25em;
 }
 
 .card-details.question-card {
     color: white;
-    background-color: black;
+    background-color: #000;
     margin: auto;
+}
+
+input#message, button {
+    width: 800px;
+    border: 0px;
+    padding: 4px 0px;
+    margin: 4px 0px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    box-shadow: 0 3px 4px -2px rgba(0,0,0,0.5);
 }
 
 ul.list > li.card-details {
     display: inline-block;
     cursor: pointer;
+}
+
+ul#chat {
+    list-style-type: none;
+    margin: 0; padding: 0;
+    width: 800px;
+    border: 1px solid #000;
+    box-shadow 0px 3px 4px -2px rgba(0,0,0,0.5);
+}
+
+ul#chat li {
+    padding: 5px 0px;
+    width: 800px;
+}
+
+ul#chat li span {
+    margin: 0px 5px;
+    display: inline-block;
+    text-align: left;
+}
+
+ul#chat li .player {
+    width: 120px;
+    float: left;
+}
+
+ul#chat li .message {
+    width: 660px;
+}
+
+ul#chat li:nth-child(odd) {
+    background: #eee;
+}
+
+ul#chat li:nth-child(even) {
+    background: #fff;
 }

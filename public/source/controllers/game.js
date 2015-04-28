@@ -9,6 +9,9 @@ app.controller('GameController', function($log, $routeParams, $scope, $location,
     $scope.game = {};
     $scope.game.id = $routeParams.id;
 
+    $scope.message = "";
+    $scope.messages = [];
+
     $scope.session = {};
     $scope.currentRount = {};
     $scope.newGame = {};
@@ -31,6 +34,11 @@ app.controller('GameController', function($log, $routeParams, $scope, $location,
         if ($scope.game.cardCzar == $scope.player.playerName) {
             socket.emit('chooseCard', $scope.player.playerName, chosenPlayer);
         }
+    };
+
+    $scope.sendMessage = function () {
+        socket.emit('sendMessage', $scope.player.playerName, $scope.message);
+        $scope.message = "";
     };
 
     socket.on('gameDetails', function (game) {
@@ -71,6 +79,12 @@ app.controller('GameController', function($log, $routeParams, $scope, $location,
     socket.on('gameOver', function (winner, answers) {
         $log.log('gameOver');
         $scope.winner = winner;
+    });
+
+    socket.on('message', function (player, message) {
+        $scope.messages.push({"player": player, "message": message});
+        if ($scope.messages.length >= 10) {$scope.messages.shift();}
+        $scope.$apply();
     });
 
     $scope.player = $scope.player || $cookieStore.get('player') || {};

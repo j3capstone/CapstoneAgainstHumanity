@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "description": "Cards Against Humanity for Capstone project",
     "authors": [
-        "James Thomason, Jr <james@jamesthomasonjr.com>"
+        "James Thomason, Jr <jamethom@umflint.edu>",
+        "Jeremy Brown <jeremybr@umflint.edu>",
+        "Jiwei Tian <jtian@umflint.edu>"
     ],
     "dependencies": {
         "angular": "~1.3.14",

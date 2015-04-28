@@ -21,6 +21,11 @@ module.exports = function (io, hashIDs, models, games) {
         io.to(socket.game).emit('updateCards', games[socket.game].inPlay);
     };
 
+    var sendMessage = function (socket, player, message) {
+        /* Send the player's message to the game */
+        io.to(socket.game).emit('message', player, message);
+    };
+
     var sendRoundOverNotice = function (socket, winner, answer) {
         /* Send the 'roundOver' message, and send the player who won the round, along with their answer card */
         io.to(socket.game).emit('roundOver', winner.playerName, answer);
@@ -119,10 +124,17 @@ module.exports = function (io, hashIDs, models, games) {
                     /* And update the clients in the game */
                     sendRoundOverNotice(socket, winner, answer);
                 } else {
-                    /* Otherwise, end the game and let everyone know who won */
+                    /* Otherwise let everyone know who won */
                     sendGameOverNotice(socket, winner, answer);
+                    /* And remove the game from the game list */
+                    games
                 }
             }
+        });
+
+        /* Whenever a player sends a message... */
+        socket.on('sendMessage', function (player, message) {
+            sendMessage(socket, player, message);
         });
     });
 };
