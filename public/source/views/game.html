@@ -69,6 +69,21 @@
         </section>
     </div>
 
+    <!-- Only show this div id the player has a name and is in a game -->
+    <div data-ng-if="nameSet && game">
+        <h1>Chat</h1>
+        <ul id="chat" data-ng-if="messages.length">
+            <li data-ng-repeat="msg in messages" class="message">
+                <span class="player">{{msg.player}}</span>
+                <span class="message">{{msg.message}}</span>
+            </li>
+        </ul>
+        <form name="message" data-ng-submit="message && sendMessage()">
+            <input type="text" placeholder="Message here" id="message" data-ng-model="$parent.message" autocomplete="off" required />
+            <button type="submit" class="button">Send</button>
+        </form>
+    </div>
+
     <!---->
     <form data-ng-if="!nameSet" name="joinGame" data-ng-submit="joinGame.$valid && join()">
         <h1>Join This Game</h1>
